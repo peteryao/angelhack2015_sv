@@ -10,7 +10,10 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
+project = lambda f: os.path.join(PROJECT_ROOT, f) # use as project('db')
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,8 +31,7 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
-INSTALLED_APPS = (
+DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,6 +39,15 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 )
+
+THIRD_PARTY_APPS = (
+)
+
+LOCAL_APPS = (
+    'angelhack2015_sv.apps.core',
+)
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -51,16 +62,35 @@ ROOT_URLCONF = 'angelhack2015_sv.urls'
 
 WSGI_APPLICATION = 'angelhack2015_sv.wsgi.application'
 
-
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(project('angelhack2015_sv/templates'))],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'angelmail',
+        'USER': 'angelmail',
+        'PASSWORD': os.environ.get('DATABASE_PASSWORD', '123456'),
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
