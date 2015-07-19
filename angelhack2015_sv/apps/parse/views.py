@@ -26,9 +26,7 @@ def test(request):
 	client = IODClient(APIURL, APIKEY)
 	r=client.post('analyzesentiment',{'text':'I like cats'})
 	context['sentiment']=r.json()
-	client.createIndex('myindex')
-	x=client.post('analyzesentiment',{'text':'I like cats'})
-	context['sentiment']=x.json()
-	client.createIndex('myindex')
-	myindex = client.getIndex('myindex')
-	return render(request, 'parse/test.html', context)
+	x=client.post('highlighttext',{'text':'I like cats', 'highlight_expression':'cats', 'start_tag':'<h1>', 'end_tag':'</h1>'})
+	context['highlight']=x.json()['text']
+
+	return render(request, 'parse/test.html', context)	
