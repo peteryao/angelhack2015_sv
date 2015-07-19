@@ -24,10 +24,19 @@ def index(request):
 def test(request):
 	context = {}
 	client = IODClient(APIURL, APIKEY)
-	r=client.post('analyzesentiment',{'text':'I like cats'})
-	context['sentiment']=r.json()['aggregate']
-	x=client.post('highlighttext',{'text':'I like cats', 'highlight_expression':'cats', 'start_tag':'<h1>', 'end_tag':'</h1>', })
-	context['highlight']=x.json()['text']
-	z=client.post('createtextindex',{'testIndex', 'explorer'})
 
-	return render(request, 'parse/test.html', context)	
+	r=client.post('analyzesentiment',{'text':'I like cats'})
+	analyzesentiment=r.json()
+	sentiment = analyzesentiment['aggregate']['sentiment']
+	context['sentiment']=analyzesentiment
+	hightlight_sentiment = ''
+
+	for word in analyzesentiment[sentiment]:
+		hightlight_sentiment += '{},'.format(word['topic'])
+
+	print hightlight_sentiment
+
+	r=client.post('highlighttext',{'text':'I like cats', 'highlight_expression':'{}'.format(hightlight_sentiment), 'start_tag':'<b>', 'end_tag':'</b>', })
+	context['highlight']=r.json()['text']
+
+	return render(request, 'parse/test.html', context)
