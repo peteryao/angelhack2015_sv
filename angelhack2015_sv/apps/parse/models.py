@@ -1,6 +1,5 @@
 # SYSTEM DEPENDENCIES
 from datetime import datetime, timedelta, time, date
-import requests
 
 # DJANGO DEPENDENCIES
 from django.db import models
@@ -15,6 +14,8 @@ from angelhack2015_sv.apps.core.models import *
 # Create your models here.
 class Email(TimeStampedModel):
     sender = models.CharField(max_length=100)
+    subject = models.CharField(max_length=1000)
+    message = models.CharField(max_length=10000)
 
     def __unicode__(self):
-        return self.name
+        return self.subject
