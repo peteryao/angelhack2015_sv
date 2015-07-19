@@ -17,12 +17,18 @@ from angelhack2015_sv.apps.parse.models import *
 
 def index(request):
     context = {}
+    tag_list = Tag.objects.all()
+    context['all_tags'] = []
+    for tag in tag_list:
+        list = Email.objects.filter(tag__contains=[tag.name])
+        context['all_tags'].append(list)
+
     context['emailList'] = Email.objects.filter(completed=False)
     return render(request, 'core/index.html', context)
 
 def frequency(request):
     context = {}
-    context['emailList'] = Email.objects.filter(completed=False)
+    context['new_emails'] = Email.objects.all().order_by('-id')[:8]
 
     return render(request, 'core/frequency.html', context)
 

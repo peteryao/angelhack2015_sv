@@ -32,7 +32,13 @@ def email_parse(emailset):
 
 def index(request):
     context = {}
+    tag_list = Tag.objects.all()
+    context['all_tags'] = []
+    for tag in tag_list:
+        list = Email.objects.filter(tag__contains=[tag.name])
+        context['all_tags'].append(list)
 
+    context['emailList'] = Email.objects.filter(completed=False)
     return render(request, 'core/index.html', context)
 
 def test(request):
