@@ -46,6 +46,8 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     'angelhack2015_sv.apps.core',
     'angelhack2015_sv.apps.parse',
+    'angelhack2015_sv.apps.dashboard',
+    'angelhack2015_sv.apps.sparkpost',
 )
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
