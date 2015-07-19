@@ -11,12 +11,13 @@ from django.shortcuts import render, redirect
 
 # APP DEPENDENCIES
 from angelhack2015_sv.apps.core.models import *
+from angelhack2015_sv.apps.parse.models import *
 
 # Create your views here.
 
 def index(request):
     context = {}
-
+    context['emailList'] = Email.objects.all()
     return render(request, 'core/index.html', context)
 
 def test(request):

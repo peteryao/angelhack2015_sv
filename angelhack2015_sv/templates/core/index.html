@@ -1,5 +1,9 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-testing 1
+<h1>MailShift - </h1>
+{% for email in emailList %}
+{{ email.subject }} - {{ email.message}}
+<br/>
+{% endfor %}
 {% endblock content %}
