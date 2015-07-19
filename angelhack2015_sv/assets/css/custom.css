@@ -1,0 +1,17 @@
+.mainHeader{
+	color:#4fc3c7;
+}
+
+.subHead{
+	text-transform: uppercase;;
+	color:#4fc3c7;
+}
+
+.rating{
+	background-color:#eb4b31;
+	color:#fff;
+}
+
+.alert ul{
+	list-style-type: none;
+}

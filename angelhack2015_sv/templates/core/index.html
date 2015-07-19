@@ -3,9 +3,38 @@
 {% block content %}
 
 {{emailList}}
-<h1>MailShift - </h1>
+<h1 class="mainHeader">MailSift </h1>
+<br/>
+<h2 class="subHead">Dashboard</h2>
+<br/>
+<p>Welcome Peter Yao, let's sift through some emails, shall we?</p>
+<h3>Urgent Tags</h3>
+<div class="alert row">
+	<div class="rating col-md-2">
+		10
+	</div>
+	<div class="col-md-9">
+		<h4>Information Tech.</h4>
+		<ul>
+			<li>fdasfsdsdf</li>
+			<li>fadfadsffd</li>
+			<li>fdafdsfas</li>
+		</ul>
+	</div>
+</div>
 {% for email in emailList %}
 <div><h3>{{ email.subject }}</h3> - {{ email.message}}</div>
 <br/>
 {% endfor %}	
+<div class="col-md-4">
+	test
+	</div>
+<div class="col-md-4">
+	test
+</div>
+<div class="col-md-4">
+	test
+</div>
 {% endblock content %}
+
+
