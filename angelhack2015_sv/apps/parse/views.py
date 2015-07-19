@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
 # PROJECT DEPENDENCIES
-from iodpython.iodindex import IODClient
+# from iodpython.iodindex import IODClient
 
 # APP DEPENDENCIES
 from angelhack2015_sv.apps.core.models import *
