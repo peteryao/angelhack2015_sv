@@ -20,6 +20,15 @@ from angelhack2015_sv.apps.sparkpost.serializers import EmailSerializer
 
 # Create your views here.
 SPARKPOST_API_KEY = '42245348290e3777bb8274f718ce32ded7b7ddd4'
+def email_parse(emailset):
+    message = '<table><tr><th>Subject</th><th>Message</th></tr>'
+    for email in emailset:
+        message += '<tr>'
+        message += '<td width=\"30%\">{}</td>'.format(email.subject)
+        message += '<td width=\"70%\">{}</td>'.format(email.message)
+        message += '</tr>'
+    message += '</table>'
+    return message
 
 def index(request):
     context = {}
@@ -45,14 +54,13 @@ def tag_internal_email(request, tag_pk):
     context = {}
     tag = Tag.objects.get(pk=tag_pk)
     email_list = Email.objects.filter(tag__contains=[tag.name.lower()])
-    email_json = EmailSerializer(email_list, many=True)
+    email_message = email_parse(email_list)
     sp = SparkPost(SPARKPOST_API_KEY)
-    print JSONRenderer().render(email_json.data)
     response = sp.transmission.send(
             recipients=['peteryao916@gmail.com'],
             template='angel-mail-eng',
             subject='<{}> - Issue'.format(tag.name),
-            substitution_data={'email_all':JSONRenderer().render(email_json.data)},
+            substitution_data={'email_all':email_message, 'tag_info':tag.name},
         )
 
     return redirect(index)
