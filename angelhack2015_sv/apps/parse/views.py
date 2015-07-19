@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
 # PROJECT DEPENDENCIES
-# from iodpython.iodindex import IODClient
+from iodpython.iodindex import IODClient
 
 # APP DEPENDENCIES
 from angelhack2015_sv.apps.core.models import *
@@ -25,8 +25,10 @@ def test(request):
 	context = {}
 	client = IODClient(APIURL, APIKEY)
 	r=client.post('analyzesentiment',{'text':'I like cats'})
-	myjson=r.json()
-	print myjson
+	context['sentiment']=r.json()
 	client.createIndex('myindex')
-	index = client.getIndex('myindex')
-	return redirect(index)
+	x=client.post('analyzesentiment',{'text':'I like cats'})
+	context['sentiment']=x.json()
+	client.createIndex('myindex')
+	myindex = client.getIndex('myindex')
+	return render(request, 'parse/test.html', context)
