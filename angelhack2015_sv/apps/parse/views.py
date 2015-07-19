@@ -54,7 +54,7 @@ def generate_tags(request, feedback_pk):
 	index = client.getIndex('mailsift')
 	r = client.post('findsimilar', {'text':feedback_email.message, 'indexes':'mailsift'})
 	similar_feedback = r.json()
-	if similar_feedback['documents']
+	# if similar_feedback['documents']
 
 	# doc1={'reference':feedback_email.pk,'title':feedback_email.subject, 'content':feedback_email.message}
 	# docs = [doc1]

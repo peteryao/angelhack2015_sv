@@ -22,6 +22,7 @@ def index(request):
 
 def frequency(request):
     context = {}
+    context['emailList'] = Email.objects.filter(completed=False)
 
     return render(request, 'core/frequency.html', context)
 

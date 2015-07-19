@@ -1,5 +1,4 @@
 {% extends 'core/base.html' %}
-{% extends 'core/frequency.html' %}
 
 {% block content %}
 
@@ -88,7 +87,7 @@
 {% for email in emailList %}
 <div><h3>{{ email.subject }}</h3> - {{ email.message}}</div>
 <br/>
-{% endfor %}	
+{% endfor %}
 {% endblock content %}
 
 
