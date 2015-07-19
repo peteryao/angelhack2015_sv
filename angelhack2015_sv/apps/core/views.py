@@ -20,7 +20,11 @@ def index(request):
     context['emailList'] = Email.objects.filter(completed=False)
     return render(request, 'core/index.html', context)
 
+def frequency(request):
+    context = {}
+
+    return render(request, 'core/frequency.html', context)
+
 def test(request):
-    g = gmail.login('davisrandom@gmail.com', 'asdf12345!~')
     # ... exit or deal with failure...
     return redirect(index)

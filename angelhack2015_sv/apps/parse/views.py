@@ -23,7 +23,19 @@ def index(request):
 
 def generate_highlight(request):
 	context = {}
+	client = IODClient(APIURL, APIKEY)
 
+	r=client.post('analyzesentiment',{'text':'I like cats'})
+	analyzesentiment=r.json()
+	sentiment = analyzesentiment['aggregate']['sentiment']
+	context['sentiment']=analyzesentiment
+	hightlight_sentiment = ''
+
+	for word in analyzesentiment[sentiment]:
+		hightlight_sentiment += '{},'.format(word['topic'])
+
+	r=client.post('highlighttext',{'text':'I like cats', 'highlight_expression':'{}'.format(hightlight_sentiment), 'start_tag':'<b>', 'end_tag':'</b>', })
+	context['highlight']=r.json()['text']
 	return render(request, 'core/index.html', context)
 
 def test(request):
