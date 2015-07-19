@@ -1,9 +1,11 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
+
+{{emailList}}
 <h1>MailShift - </h1>
 {% for email in emailList %}
-{{ email.subject }} - {{ email.message}}
+<div><h3>{{ email.subject }}</h3> - {{ email.message}}</div>
 <br/>
-{% endfor %}
+{% endfor %}	
 {% endblock content %}

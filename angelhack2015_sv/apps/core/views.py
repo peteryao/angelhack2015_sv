@@ -17,7 +17,7 @@ from angelhack2015_sv.apps.parse.models import *
 
 def index(request):
     context = {}
-    context['emailList'] = Email.objects.all()
+    context['emailList'] = Email.objects.filter(completed=False)
     return render(request, 'core/index.html', context)
 
 def test(request):
