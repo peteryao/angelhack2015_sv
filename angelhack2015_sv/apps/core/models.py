@@ -37,8 +37,6 @@ class FeedbackModel(TimeStampedModel):
     sentiment = models.IntegerField(default=0)
     message = models.CharField(max_length=10000)
 
-class FeedbackIdol(TimeStampedModel):
-    feedback = models.ForeignKey(FeedbackModel, blank=True)
     summary = models.CharField(max_length=512, blank=True)
     content = models.CharField(max_length=512, blank=True)
     priority = models.IntegerField(default=0)

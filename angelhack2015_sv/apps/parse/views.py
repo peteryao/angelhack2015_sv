@@ -11,6 +11,7 @@ from iodpython.iodindex import IODClient
 
 # APP DEPENDENCIES
 from angelhack2015_sv.apps.core.models import *
+from angelhack2015_sv.apps.parse.models import *
 
 # Create your views here.
 APIKEY = '084bf7b0-b5ef-4a6a-9f87-fe6ba45d1131'
@@ -21,22 +22,50 @@ def index(request):
 
     return render(request, 'core/index.html', context)
 
-def generate_highlight(request):
+def generate_highlight(request, feedback_pk):
 	context = {}
 	client = IODClient(APIURL, APIKEY)
 
-	r=client.post('analyzesentiment',{'text':'I like cats'})
+	feedback_email = Email.objects.get(pk=feedback_pk)
+
+	r=client.post('analyzesentiment',{'text':feedback_email.message})
 	analyzesentiment=r.json()
 	sentiment = analyzesentiment['aggregate']['sentiment']
 	context['sentiment']=analyzesentiment
+	feedback_email.sentiment = 50 + 50 * analyzesentiment['aggregate']['score']
 	hightlight_sentiment = ''
 
 	for word in analyzesentiment[sentiment]:
 		hightlight_sentiment += '{},'.format(word['topic'])
 
-	r=client.post('highlighttext',{'text':'I like cats', 'highlight_expression':'{}'.format(hightlight_sentiment), 'start_tag':'<b>', 'end_tag':'</b>', })
-	context['highlight']=r.json()['text']
-	return render(request, 'core/index.html', context)
+	r=client.post('highlighttext',{'text':feedback_email.message, 'highlight_expression':'{}'.format(hightlight_sentiment), 'start_tag':'<b>', 'end_tag':'</b>', })
+	feedback_email.content=r.json()['text']
+	feedback_email.priority = feedback_email.sentiment + 40
+	feedback_email.save()
+	context['test'] = feedback_email
+
+	return render(request, 'parse/test.html', context)
+
+def generate_tags(request, feedback_pk):
+	context = {}
+	client = IODClient(APIURL, APIKEY)
+	feedback_email = Email.objects.get(pk=feedback_pk)
+
+	index = client.getIndex('mailsift')
+	r = client.post('findsimilar', {'text':feedback_email.message, 'indexes':'mailsift'})
+	similar_feedback = r.json()
+	if similar_feedback['documents']
+
+	# doc1={'reference':feedback_email.pk,'title':feedback_email.subject, 'content':feedback_email.message}
+	# docs = [doc1]
+	# index.addDocs([doc1])
+	# for doc in docs:
+	# 	index.pushDoc(doc)
+	# print index.size()
+	# index.commit()
+	# print index.size()
+	context['test'] = feedback_email
+	return render(request, 'parse/test.html', context)
 
 def test(request):
 	context = {}
@@ -50,6 +79,7 @@ def test(request):
 
 	for word in analyzesentiment[sentiment]:
 		hightlight_sentiment += '{},'.format(word['topic'])
+		print hightlight_sentiment + " here"
 
 	r=client.post('highlighttext',{'text':'I like cats', 'highlight_expression':'{}'.format(hightlight_sentiment), 'start_tag':'<b>', 'end_tag':'</b>', })
 	context['highlight']=r.json()['text']
