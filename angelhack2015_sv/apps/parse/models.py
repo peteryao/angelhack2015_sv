@@ -17,6 +17,15 @@ class Email(FeedbackModel):
     sender = models.CharField(max_length=100)
     subject = models.CharField(max_length=1000)
 
+    def as_json(self):
+        return dict(
+            email_id=self.id,
+            email_sender=self.sender,
+            email_subject=self.subject,
+            email_message=self.message,
+            email_sentiment=self.sentiment,
+        )
+
     def __unicode__(self):
         return self.subject
 

@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^', include('angelhack2015_sv.apps.dashboard.urls')),
     url(r'^', include('angelhack2015_sv.apps.parse.urls')),
     url(r'^sparkpost/', include('angelhack2015_sv.apps.sparkpost.urls')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', include(admin.site.urls)),
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -27,9 +27,12 @@ class Tag(TimeStampedModel):
     description = models.CharField(max_length=256)
     user_priority = models.IntegerField(default=1)
 
+    def __unicode__(self):
+        return self.name
+
 class FeedbackModel(TimeStampedModel):
     assigned_to = models.ForeignKey(User)
     completed = models.BooleanField(default=False)
     tag = ArrayField(models.CharField(max_length=128), blank=True)
-    sentiment = models.DecimalField(default=0, max_digits=11, decimal_places=10)
+    sentiment = models.IntegerField(default=0)
     message = models.CharField(max_length=10000)
