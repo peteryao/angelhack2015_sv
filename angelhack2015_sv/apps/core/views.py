@@ -8,7 +8,6 @@ from django.contrib.postgres.fields import ArrayField
 from django.shortcuts import render, redirect
 
 # PROJECT DEPENDENCIES
-import gmail
 
 # APP DEPENDENCIES
 from angelhack2015_sv.apps.core.models import *
