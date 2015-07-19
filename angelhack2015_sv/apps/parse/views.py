@@ -34,9 +34,22 @@ def test(request):
 	for word in analyzesentiment[sentiment]:
 		hightlight_sentiment += '{},'.format(word['topic'])
 
-	print hightlight_sentiment
-
 	r=client.post('highlighttext',{'text':'I like cats', 'highlight_expression':'{}'.format(hightlight_sentiment), 'start_tag':'<b>', 'end_tag':'</b>', })
 	context['highlight']=r.json()['text']
+
+	index = client.getIndex('mailsift')
+
+	doc1={'reference':'doc1','title':'title1','content':'this is my content'}
+	doc2={'reference':'doc2','title':'title2','content':'this is another content'}
+	doc3={'reference':'doc3','title':'title2','content':'this is another content'}
+	doc4={'reference':'doc2','title':'titleNew','content':'this is another content alksdjflkjasdfkljaslkdf'}
+	docs = [doc1, doc2, doc3, doc4]
+	index.addDocs([doc1, doc2, doc3, doc4])
+	for doc in docs:
+		index.pushDoc(doc)
+	print index.size()
+	index.commit()
+	print index.size()
+
 
 	return render(request, 'parse/test.html', context)
