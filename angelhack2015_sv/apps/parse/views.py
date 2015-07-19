@@ -21,6 +21,11 @@ def index(request):
 
     return render(request, 'core/index.html', context)
 
+def generate_highlight(request):
+	context = {}
+
+	return render(request, 'core/index.html', context)
+
 def test(request):
 	context = {}
 	client = IODClient(APIURL, APIKEY)
