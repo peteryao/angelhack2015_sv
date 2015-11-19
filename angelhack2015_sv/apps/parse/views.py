@@ -14,7 +14,7 @@ from angelhack2015_sv.apps.core.models import *
 from angelhack2015_sv.apps.parse.models import *
 
 # Create your views here.
-APIKEY = '084bf7b0-b5ef-4a6a-9f87-fe6ba45d1131'
+APIKEY = ''
 APIURL = 'http://api.idolondemand.com/'
 
 def index(request):
