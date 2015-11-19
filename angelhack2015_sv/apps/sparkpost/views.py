@@ -19,7 +19,7 @@ from angelhack2015_sv.apps.parse.models import Email
 from angelhack2015_sv.apps.sparkpost.serializers import EmailSerializer
 
 # Create your views here.
-SPARKPOST_API_KEY = '42245348290e3777bb8274f718ce32ded7b7ddd4'
+SPARKPOST_API_KEY = ''
 def email_parse(emailset):
     message = '<table><tr><th>Subject</th><th>Message</th></tr>'
     for email in emailset:
@@ -63,7 +63,7 @@ def tag_internal_email(request, tag_pk):
     email_message = email_parse(email_list)
     sp = SparkPost(SPARKPOST_API_KEY)
     response = sp.transmission.send(
-            recipients=['peteryao916@gmail.com'],
+            recipients=[''],
             template='angel-mail-eng',
             subject='<{}> - Issue'.format(tag.name),
             substitution_data={'email_all':email_message, 'tag_info':tag.name},
